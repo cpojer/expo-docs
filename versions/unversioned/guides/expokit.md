@@ -29,7 +29,7 @@ Open the project in XDE. If you were already running this project in XDE, press 
 
 If you prefer `exp`, run `exp start` from the project directory.
 
-This step ensures that the React Native packager is running and serving your app's JS bundle for development. Leave this running and continue with the following steps.
+This step ensures that Metro is running and serving your app's JS bundle for development. Leave this running and continue with the following steps.
 
 ### 3. iOS: Configure, build and run
 

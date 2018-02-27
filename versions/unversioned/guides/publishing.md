@@ -15,7 +15,7 @@ should be able to access your project. This makes it much easier to open
 your project on your phone or send it someone else you’re collaborating
 with who isn’t on the same LAN.
 
-But since the packager and server are running on your computer, if you
+But since the Metro server is running on your computer, if you
 turn off your laptop or close XDE, you won’t be able to load your
 project from that URL. "Publish" is the term we use for deploying your
 project. It makes your project available at a persistent URL, for
@@ -31,7 +31,7 @@ upper right of the window.) If you're using the exp cli tool, then run
 `exp publish`. No setup is required, go ahead and create a new project
 and publish it without any changes and you will see that it works.
 
-When you do this, the packager will minify all your code and generate
+When you do this, Metro will minify all your code and generate
 two versions of your code (one for iOS, one for Android) and then upload
 those to a CDN. You’ll get a link like [https://exp.host/@ccheever/an-example](https://exp.host/@ccheever/an-example)
 that anyone can load your project from.

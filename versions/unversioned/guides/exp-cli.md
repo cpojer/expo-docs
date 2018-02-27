@@ -68,7 +68,7 @@ Starts or restarts a local server for your app and gives you a URL to it
 Options:
 
   -s, --send-to [dest]   A phone number or e-mail address to send a link to
-  -c, --clear            Clear the React Native packager cache
+  -c, --clear            Clear the Metro cache
   -a, --android          Opens your app in Expo on a connected Android device
   -i, --ios              Opens your app in Expo in a currently running iOS simulator on your computer
   -m, --host [mode]      tunnel (default), lan, localhost. Type of host to use. "tunnel" allows you to view your link on other networks

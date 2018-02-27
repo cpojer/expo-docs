@@ -13,7 +13,7 @@ You can also browse the source, fork, hack on and contribute to the Expo tooling
 
 ## Serving an Expo project for local development
 
-There are two pieces here: the Expo app and the Expo development tool (either XDE or `exp` CLI). We'll just assume XDE here for simplicity of naming. When you open an app up in XDE, it spawns and manages two server processes in the background: the Expo Development Server and the React Native Packager Server.
+There are two pieces here: the Expo app and the Expo development tool (either XDE or `exp` CLI). We'll just assume XDE here for simplicity of naming. When you open an app up in XDE, it spawns and manages two server processes in the background: the Expo Development Server and the Metro Server.
 
 ![](./fetch-app-from-xde.png)
 
@@ -65,13 +65,13 @@ The following is an example of a manifest being served through XDE. The first th
 }
 ```
 
-Every field in the manifest is some configuration option that tells Expo what it needs to know to run your app. The app fetches the manifest first and uses it to show your app's loading icon that you specified in `app.json`, then proceeds to fetch your app's JavaScript at the given `bundleUrl` -- this URL points to the React Native Packager Server.
+Every field in the manifest is some configuration option that tells Expo what it needs to know to run your app. The app fetches the manifest first and uses it to show your app's loading icon that you specified in `app.json`, then proceeds to fetch your app's JavaScript at the given `bundleUrl` -- this URL points to the Metro Server.
 
 In order to stream logs to XDE, the Expo SDK intercepts calls to `console.log`, `console.warn`, etc. and posts them to the `logUrl` specified in the manifest. This endpoint is on the Expo Development Server.
 
-### React Native Packager Server
+### Metro Server
 
-If you use React Native without Expo, you would start the packager by running `react-native start` in your project directory. Expo starts this up for you and pipes `STDOUT` to XDE. This server has two purposes.
+If you use React Native without Expo, you would start Metro (the bundler for React Native) by running `react-native start` in your project directory. Expo starts this up for you and pipes `STDOUT` to XDE. This server has two purposes.
 
 The first is to serve your app JavaScript compiled into a single file and translating any JavaScript code that you wrote which isn't compatible with your phone's JavaScript engine. JSX, for example, is not valid JavaScript -- it is a language extension that makes working with React components more pleasant and it compiles down into plain function calls -- so `<HelloWorld />` would become `React.createElement(HelloWorld, {}, null)` (see [JSX in Depth](https://facebook.github.io/react/docs/jsx-in-depth.html) for more information). Other language features like [async/await](https://blog.expo.io/react-native-meets-async-functions-3e6f81111173#.4c2517o5m) are not yet available in most engines and so they need to be compiled down into JavaScript code that will run on your phone's JavaScript engine, JavaScriptCore.
 
@@ -79,7 +79,7 @@ The second purpose is to serve assets. When you include an image in your app, yo
 
 ## Publishing/Deploying an Expo app in Production
 
-When you publish an Expo app, we compile it into a JavaScript bundle with production flags enabled. That is, we minify the source and we tell the React Native packager to build in production mode (which in turn sets [`__DEV__`](https://facebook.github.io/react-native/docs/javascript-environment.html#polyfills) to `false` amongst other things). After compilation, we upload that bundle, along with any assets that it requires (see [Assets](assets.html#all-about-assets)) to CloudFront. We also upload your [Manifest](#expo-manifest) (including most of your `app.json` configuration) to our server.
+When you publish an Expo app, we compile it into a JavaScript bundle with production flags enabled. That is, we minify the source and we tell the Metro to build in production mode (which in turn sets [`__DEV__`](https://facebook.github.io/react-native/docs/javascript-environment.html#polyfills) to `false` amongst other things). After compilation, we upload that bundle, along with any assets that it requires (see [Assets](assets.html#all-about-assets)) to CloudFront. We also upload your [Manifest](#expo-manifest) (including most of your `app.json` configuration) to our server.
 When publishing is complete, we'll give you a URL to your app which you can send to anybody who has the Expo client.
 
 > **Note:** By default, all Expo projects are `unlisted`, which means that publishing does not make it publicly searchable or discoverable anywhere. It is up to you to share the link. You can change this setting in [app.json](configuration.html).
